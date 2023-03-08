@@ -1,10 +1,5 @@
 package keyboard
 
-// #cgo pkg-config: libevdev
-// #include <libevdev/libevdev.h>
-// #include <libevdev/libevdev-uinput.h>
-import "C"
-
 var (
 	procKeyBdEvent = user32.NewProc("keybd_event")
 	procVkKeyScan  = user32.NewProc("VkKeyScanA")
@@ -41,7 +36,7 @@ func (v virtual) sequence(value string) error {
 	return nil
 }
 
-func (v virtual) press(keys ...Key) error {
+func (virtual) press(keys ...Key) error {
 	for _, key := range keys {
 		ret, _, err := procKeyBdEvent.Call(uintptr(key), 0, 0x0000, 0)
 		if ret != 0 {
@@ -52,7 +47,7 @@ func (v virtual) press(keys ...Key) error {
 	return nil
 }
 
-func (v virtual) release(keys ...Key) error {
+func (virtual) release(keys ...Key) error {
 	for _, key := range keys {
 		ret, _, err := procKeyBdEvent.Call(uintptr(key), 0, 0x0002, 0)
 		if ret != 0 {

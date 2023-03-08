@@ -17,7 +17,7 @@ var (
 type handler func(int, uintptr, uintptr) uintptr
 
 type platform_listener struct {
-	state state
+	state *state
 	hooks sync.Map
 }
 
@@ -76,7 +76,7 @@ func (l *listener) handle(ch receiver, hook *uintptr) handler {
 		}
 
 		t := EventType(wparam)
-		key := Key(*(*Key)(unsafe.Pointer(lparam))()
+		key := Key(*(*Key)(unsafe.Pointer(lparam)))
 		keys := []Key{key}
 
 		switch t {
