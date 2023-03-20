@@ -15,7 +15,7 @@ func ByID(id ProcessID) (*Process, error) {
 	return process(id)
 }
 
-// ByName retrieves a list of process that matches the specified name
+// ByName retrieves a list of processes that matches the specified name
 func ByName(name string) ([]*Process, error) {
 	processes, err := allProcesses()
 	if err != nil {
