@@ -36,7 +36,7 @@ func TesScanBlocks(t *testing.T) {
 			[]string{"uno\ndos", "tres\ncuatro"},
 		},
 		{
-			"Buffer with an extra blank line at the beggining",
+			"Buffer with an extra blank line at the beginning",
 			[]byte("\n\nuno\ndos\n\ntres\ncuatro"),
 			[]string{"uno\ndos", "tres\ncuatro"},
 		},
