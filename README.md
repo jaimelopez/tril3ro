@@ -1,6 +1,6 @@
 # Tril3ro framework
 
-<img align="right" width="159px" src="logo1.png">
+<img align="right" width="159px" src="logo.png">
 
 [![GoDoc](https://pkg.go.dev/badge/github.com/jaimelopez/tril3ro?status.svg)](https://pkg.go.dev/github.com/jaimelopez/tril3ro?tab=doc)
 [![Go Report Card](https://goreportcard.com/badge/github.com/jaimelopez/tril3ro)](https://goreportcard.com/report/github.com/jaimelopez/tril3ro)
