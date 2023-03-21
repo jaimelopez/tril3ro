@@ -9,7 +9,7 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-func TesScanBlocks(t *testing.T) {
+func TestScanBlocks(t *testing.T) {
 	tests := []struct {
 		name     string
 		input    []byte
