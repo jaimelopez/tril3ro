@@ -52,26 +52,26 @@ func (s *scanner) Into(obj any) error {
 	}
 
 	for i := 0; i < targetType.NumField(); i++ {
-		// fieldType := targetType.Field(i)
 		field := target.Field(i)
 
 		if !field.IsValid() {
 			continue
 		}
 
+		// Cannot take pointer of this field, so can't scrub it.
 		if !field.CanAddr() {
-			// Cannot take pointer of this field, so can't scrub it.
 			continue
 		}
 
+		// This is an unexported or private field (begins with lowercase).
+		// We can't take an interface on that or scrub it.
+		// UnsafeAddr(), which is unsafe.Pointer, can be used to workaround it,
+		// but that is not recommended in Golang.
 		if !field.Addr().CanInterface() {
-			// This is an unexported or private field (begins with lowercase).
-			// We can't take an interface on that or scrub it.
-			// UnsafeAddr(), which is unsafe.Pointer, can be used to workaround it,
-			// but that is not recommended in Golang.
 			continue
 		}
 
+		// The specified format tag
 		format := targetType.Field(i).Tag.Get("format")
 
 		if format == "" {
@@ -82,6 +82,7 @@ func (s *scanner) Into(obj any) error {
 		t := targetType.Field(i).Type
 		isPointer := false
 
+		// Needed to properly assign the match later on
 		if field.Kind() == reflect.Ptr {
 			t = t.Elem()
 			isPointer = true
@@ -91,17 +92,18 @@ func (s *scanner) Into(obj any) error {
 
 		for _, line := range lines {
 			matches := re.FindStringSubmatch(line)
+
 			if len(matches) == 0 {
 				continue
 			}
 
+			// Ignoring the whole group match
 			if len(matches) > 1 {
 				matches = matches[1:]
 			}
 
 			for _, match := range matches {
-				err := conv.Infer(val, match)
-				if err == nil {
+				if err := conv.Infer(val, match); err == nil {
 					break
 				}
 			}
