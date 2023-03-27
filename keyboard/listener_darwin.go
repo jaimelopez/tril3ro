@@ -84,8 +84,6 @@ func (l *listener) stop() {
 }
 
 func (l *listener) listen(ch receiver) error {
-	// TODO: h := cgo.NewHandle(hk)
-	// From: https://github.com/golang-design/hotkey/blob/main/hotkey_darwin.go#L48
 	relock.Lock()
 	defer relock.Unlock()
 

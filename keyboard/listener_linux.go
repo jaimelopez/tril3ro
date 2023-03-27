@@ -9,7 +9,7 @@ import (
 	"unsafe"
 
 	"github.com/jaimelopez/tril3ro/internal/device"
-	"github.com/jaimelopez/tril3ro/internal/exec"
+	"github.com/jaimelopez/tril3ro/internal/execution"
 )
 
 const inputEventSize = int(unsafe.Sizeof(inputEvent{}))
@@ -24,7 +24,7 @@ type platform_listener struct {
 }
 
 func (l *listener) init() (*listener, error) {
-	if !exec.IsRoot() {
+	if !execution.IsRoot() {
 		return nil, ErrInsufficientPrivileges
 	}
 

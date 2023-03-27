@@ -12,6 +12,12 @@ var (
 	// ErrMainTaskNotFound represents a task not found error
 	ErrMainTaskNotFound = errors.New("main task not found")
 
+	// ErrModuleNotFound represents a module not found error
+	ErrModuleNotFound = errors.New("module not found")
+
 	// ErrUnexpectedConversion represents generic unexpected error
 	ErrUnexpectedResult = errors.New("unexpected result error")
+
+	// ErrInsufficientPrivileges represents an error when an operation is requested with not enough privileges
+	ErrInsufficientPrivileges = errors.New("insufficient privileges to perform operation")
 )

@@ -24,7 +24,7 @@ type BlockExample struct {
 }
 
 func blockScanner() {
-	r, err := file.NewBlockScanner("test.file")
+	scanner, err := file.NewBlockScanner("test.file")
 	if err != nil {
 		panic(fmt.Errorf("error instantiating new block scanner: %s", err.Error()))
 	}
@@ -32,10 +32,10 @@ func blockScanner() {
 
 	blocks := []BlockExamples{}
 
-	for r.Scan() {
+	for scanner.Scan() {
 		current := BlockExample{}
 
-		err := r.Into(&current)
+		err := scanner.Into(&current)
 		if err != nil {
 			continue
 		}

@@ -7,7 +7,7 @@ import (
 	"syscall"
 
 	"github.com/jaimelopez/tril3ro/internal/device"
-	"github.com/jaimelopez/tril3ro/internal/exec"
+	"github.com/jaimelopez/tril3ro/internal/execution"
 )
 
 type platform_virtual struct {
@@ -15,7 +15,7 @@ type platform_virtual struct {
 }
 
 func (v *virtual) init() (*virtual, error) {
-	if !exec.IsRoot() {
+	if !execution.IsRoot() {
 		return nil, ErrInsufficientPrivileges
 	}
 
