@@ -27,9 +27,9 @@ func allModules(id ProcessID) ([]*Module, error) {
 		mods = append(mods, &Module{
 			ProcessID: id,
 			Address:   Addr(mod.addr),
+			Size:      uint32(mod.size),
 			Name:      filepath.Base(C.GoString(mod.module)),
 			Path:      C.GoString(mod.module),
-			Size:      uint32(mod.size),
 		})
 	}
 
