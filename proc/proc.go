@@ -33,6 +33,7 @@ func (proc *Process) Close() error {
 	return nil
 }
 
+// Module retrieves a particular dynamic module based on the name
 func (proc *Process) Module(name string) (*Module, error) {
 	modules, err := proc.AllModules()
 	if err != nil {
@@ -48,6 +49,7 @@ func (proc *Process) Module(name string) (*Module, error) {
 	return nil, ErrModuleNotFound
 }
 
+// AllModules retrieves all dynamic modules for the process
 func (proc *Process) AllModules() ([]*Module, error) {
 	return allModules(proc.ID)
 }
