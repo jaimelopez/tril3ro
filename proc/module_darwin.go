@@ -20,7 +20,10 @@ func allModules(id ProcessID) ([]*Module, error) {
 
 	var count C.uint32_t
 
-	for _, mod := range unsafe.Slice(C.getModules(C.pid_t(id), &count), count) {
+	list := C.getModules(C.pid_t(id), &count)
+	defer C.free(unsafe.Pointer(list))
+
+	for _, mod := range unsafe.Slice(list, count) {
 		mods = append(mods, &Module{
 			ProcessID: id,
 			Address:   Addr(mod.addr),
