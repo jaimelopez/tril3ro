@@ -7,34 +7,34 @@ import (
 )
 
 const (
-	procDevices = "/proc/bus/input/devices"
-	devInput    = "/dev/input/%s"
+	devicesLocation     = "/proc/bus/input/devices"
+	deviceInputLocation = "/dev/input/%s"
 
 	evKeyboardCapabilities = 120013
 )
 
 func FindKeyboardEvents() ([]string, error) {
-	s, err := file.NewBlockScanner(procDevices)
+	scanner, err := file.NewBlockScanner(devicesLocation)
 	if err != nil {
 		return nil, err
 	}
 
 	events := []string{}
 
-	for s.Scan() {
+	for scanner.Scan() {
 		block := struct {
 			EV      uint   `format:"B: EV=([[:xdigit:]]*)"`
 			Handler string `format:"H: Handlers=.*(event\\d*)"`
 		}{}
 
-		s.Into(&block)
+		scanner.Into(&block)
 
 		if (block.EV & evKeyboardCapabilities) != evKeyboardCapabilities {
 			continue
 		}
 
 		if block.Handler != "" {
-			events = append(events, fmt.Sprintf(devInput, block.Handler))
+			events = append(events, fmt.Sprintf(deviceInputLocation, block.Handler))
 		}
 	}
 
