@@ -8,7 +8,7 @@ import (
 	"github.com/jaimelopez/tril3ro/proc"
 )
 
-func TestByID(t *testing.T) {
+func TestProcessByID(t *testing.T) {
 	pid := proc.ProcessID(os.Getpid())
 
 	name, err := os.Executable()
@@ -18,7 +18,7 @@ func TestByID(t *testing.T) {
 
 	name = filepath.Base(name)
 
-	process, err := proc.ByID(pid)
+	process, err := proc.ProcessByID(pid)
 	if err != nil {
 		t.Errorf("unexpected error: %s", err)
 	}
@@ -32,7 +32,7 @@ func TestByID(t *testing.T) {
 	}
 }
 
-func TestByName(t *testing.T) {
+func TestProcessByName(t *testing.T) {
 	pid := proc.ProcessID(os.Getpid())
 
 	name, err := os.Executable()
@@ -42,7 +42,7 @@ func TestByName(t *testing.T) {
 
 	name = filepath.Base(name)
 
-	processes, err := proc.ByName(name)
+	processes, err := proc.ProcessByName(name)
 	if err != nil {
 		t.Errorf("unexpected error: %s", err)
 	}

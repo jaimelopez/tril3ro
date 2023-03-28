@@ -7,10 +7,9 @@ import (
 	"github.com/jaimelopez/tril3ro/file"
 )
 
-const procMapsLocation = "/proc/%d/maps"
-
-func allModules(id ProcessID) ([]*Module, error) {
-	scanner, err := file.NewLineScanner(fmt.Sprintf(procMapsLocation, id))
+// AllModules retrieves all dynamic modules for the process
+func (proc *Process) AllModules() ([]*Module, error) {
+	scanner, err := file.NewLineScanner(fmt.Sprintf(procMapsLocation, proc.ID))
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +35,7 @@ func allModules(id ProcessID) ([]*Module, error) {
 		}
 
 		mods = append(mods, &Module{
-			ProcessID: id,
+			ProcessID: proc.ID,
 			Address:   AddrFromString(lib.StartAddr),
 			Size:      uint32(AddrFromString(lib.EndAddr) - AddrFromString(lib.StartAddr)),
 			Name:      lib.Name,

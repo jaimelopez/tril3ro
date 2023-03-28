@@ -49,19 +49,9 @@ func (proc *Process) Module(name string) (*Module, error) {
 	return nil, ErrModuleNotFound
 }
 
-// AllModules retrieves all dynamic modules for the process
-func (proc *Process) AllModules() ([]*Module, error) {
-	return allModules(proc.ID)
-}
-
-// ByID retrieves a process that matches the specified ID
-func ByID(id ProcessID) (*Process, error) {
-	return process(id)
-}
-
-// ByName retrieves a list of processes that matches the specified name
-func ByName(name string) ([]*Process, error) {
-	processes, err := allProcesses()
+// ProcessByName retrieves a list of processes that matches the specified name
+func ProcessByName(name string) ([]*Process, error) {
+	processes, err := AllProcesses()
 	if err != nil {
 		return nil, err
 	}
@@ -75,14 +65,4 @@ func ByName(name string) ([]*Process, error) {
 	}
 
 	return matches, nil
-}
-
-// All the running processes
-func All() ([]*Process, error) {
-	return allProcesses()
-}
-
-// AllIDs retrieves all the running processes IDs
-func AllIDs() ([]ProcessID, error) {
-	return allProcessesIDs()
 }

@@ -26,6 +26,7 @@ static inline CFMachPortRef CGCreateEventTap() {
 }
 */
 import "C"
+
 import (
 	"sync"
 	"unsafe"
