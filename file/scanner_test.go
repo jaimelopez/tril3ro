@@ -83,5 +83,4 @@ func TestScanBlocks(t *testing.T) {
 			}
 		})
 	}
-
 }

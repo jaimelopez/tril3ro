@@ -11,7 +11,8 @@ import (
 	"github.com/jaimelopez/tril3ro/internal/execution"
 )
 
-func allModules(id ProcessID) ([]*Module, error) {
+// AllModules retrieves all dynamic modules for the process
+func (proc *Process) AllModules() ([]*Module, error) {
 	if !execution.IsRoot() {
 		return nil, ErrInsufficientPrivileges
 	}
@@ -20,12 +21,12 @@ func allModules(id ProcessID) ([]*Module, error) {
 
 	var count C.uint32_t
 
-	list := C.getModules(C.pid_t(id), &count)
+	list := C.getModules(C.pid_t(proc.ID), &count)
 	defer C.free(unsafe.Pointer(list))
 
 	for _, mod := range unsafe.Slice(list, count) {
 		mods = append(mods, &Module{
-			ProcessID: id,
+			ProcessID: proc.ID,
 			Address:   Addr(mod.addr),
 			Size:      uint32(mod.size),
 			Name:      filepath.Base(C.GoString(mod.module)),

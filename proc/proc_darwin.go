@@ -16,15 +16,17 @@ const (
 	procListPidsMaxSize = 99999
 )
 
-func allProcessesIDs() ([]ProcessID, error) {
+// AllProcessesIDs retrieves all the running processes IDs
+func AllProcessesIDs() ([]ProcessID, error) {
 	bff := make([]ProcessID, procListPidsMaxSize)
 	n, err := C.proc_listallpids(unsafe.Pointer(&bff[0]), C.int(len(bff)))
 
 	return bff[:n], err
 }
 
-func allProcesses() ([]*Process, error) {
-	pids, err := allProcessesIDs()
+// AllProcesses the running processes
+func AllProcesses() ([]*Process, error) {
+	pids, err := AllProcessesIDs()
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +34,7 @@ func allProcesses() ([]*Process, error) {
 	processes := []*Process{}
 
 	for _, pid := range pids {
-		process, err := process(pid)
+		process, err := ProcessByID(pid)
 		if err != nil {
 			continue
 		}
@@ -43,7 +45,8 @@ func allProcesses() ([]*Process, error) {
 	return processes, nil
 }
 
-func process(id ProcessID) (*Process, error) {
+// ProcessByID retrieves a process that matches the specified ID
+func ProcessByID(id ProcessID) (*Process, error) {
 	info := &C.struct_proc_taskallinfo{}
 
 	res := C.proc_pidinfo(C.int(id), C.PROC_PIDTASKALLINFO, 0, unsafe.Pointer(info), C.PROC_PIDTASKALLINFO_SIZE)

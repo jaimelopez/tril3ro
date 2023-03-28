@@ -7,8 +7,9 @@ import (
 	"golang.org/x/sys/windows"
 )
 
-func allModules(id ProcessID) ([]*Module, error) {
-	handle, err := windows.CreateToolhelp32Snapshot(windows.TH32CS_SNAPMODULE|windows.TH32CS_SNAPMODULE32, id)
+// AllModules retrieves all dynamic modules for the process
+func (proc *Process) AllModules() ([]*Module, error) {
+	handle, err := windows.CreateToolhelp32Snapshot(windows.TH32CS_SNAPMODULE|windows.TH32CS_SNAPMODULE32, proc.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -20,7 +21,7 @@ func allModules(id ProcessID) ([]*Module, error) {
 
 	for err := windows.Module32First(handle, &entry); err == nil; err = windows.Module32Next(handle, &entry) {
 		mods = append(mods, &Module{
-			ProcessID: id,
+			ProcessID: proc.ID,
 			Address:   Addr(entry.ModBaseAddr),
 			Size:      entry.ModBaseSize,
 			Name:      syscall.UTF16ToString(entry.Module[:]),

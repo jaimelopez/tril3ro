@@ -11,7 +11,8 @@ const (
 	procListPidsMaxSize = 99999
 )
 
-func allProcessesIDs() ([]ProcessID, error) {
+// AllProcessesIDs retrieves all the running processes IDs
+func AllProcessesIDs() ([]ProcessID, error) {
 	pIDs := make([]uint32, procListPidsMaxSize)
 	var result uint32
 
@@ -24,12 +25,11 @@ func allProcessesIDs() ([]ProcessID, error) {
 		return nil, ErrUnexpectedResult
 	}
 
-	// return slices.Clip(pids), nil
-
 	return pIDs[:uintptr(result)/unsafe.Sizeof(result)], nil
 }
 
-func allProcesses() ([]*Process, error) {
+// AllProcesses the running processes
+func AllProcesses() ([]*Process, error) {
 	handle, err := windows.CreateToolhelp32Snapshot(windows.TH32CS_SNAPPROCESS, 0)
 	if err != nil {
 		return nil, err
@@ -63,8 +63,9 @@ func allProcesses() ([]*Process, error) {
 	return processes, nil
 }
 
-func process(id ProcessID) (*Process, error) {
-	processes, err := allProcesses()
+// ProcessByID retrieves a process that matches the specified ID
+func ProcessByID(id ProcessID) (*Process, error) {
+	processes, err := AllProcesses()
 	if err != nil {
 		return nil, err
 	}

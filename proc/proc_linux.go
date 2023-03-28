@@ -8,8 +8,16 @@ import (
 	"github.com/jaimelopez/tril3ro/file"
 )
 
-func allProcessesIDs() ([]ProcessID, error) {
-	d, err := os.Open("/proc")
+const (
+	procsLocation      = "/proc"
+	procStatusLocation = "/proc/%d/status"
+	procMapsLocation   = "/proc/%d/maps"
+	procMemLocation    = "/proc/%d/mem"
+)
+
+// AllProcessesIDs retrieves all the running processes IDs
+func AllProcessesIDs() ([]ProcessID, error) {
+	d, err := os.Open(procsLocation)
 	if err != nil {
 		return nil, err
 	}
@@ -34,8 +42,9 @@ func allProcessesIDs() ([]ProcessID, error) {
 	return procs, nil
 }
 
-func allProcesses() ([]*Process, error) {
-	pids, err := allProcessesIDs()
+// AllProcesses the running processes
+func AllProcesses() ([]*Process, error) {
+	pids, err := AllProcessesIDs()
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +52,7 @@ func allProcesses() ([]*Process, error) {
 	processes := []*Process{}
 
 	for _, pid := range pids {
-		process, err := process(pid)
+		process, err := ProcessByID(pid)
 		if err != nil {
 			continue
 		}
@@ -54,8 +63,9 @@ func allProcesses() ([]*Process, error) {
 	return processes, nil
 }
 
-func process(id ProcessID) (*Process, error) {
-	filename := fmt.Sprintf("/proc/%d/status", id)
+// ProcessByID retrieves a process that matches the specified ID
+func ProcessByID(id ProcessID) (*Process, error) {
+	filename := fmt.Sprintf(procStatusLocation, id)
 
 	s, err := file.NewBlockScanner(filename)
 	if err != nil {

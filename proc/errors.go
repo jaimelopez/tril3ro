@@ -20,4 +20,7 @@ var (
 
 	// ErrInsufficientPrivileges represents an error when an operation is requested with not enough privileges
 	ErrInsufficientPrivileges = errors.New("insufficient privileges to perform operation")
+
+	// ErrWrongTotalBytes represents an error reading or writing the spcified number of bytes
+	ErrWrongTotalBytes = errors.New("couldn't perform operation with as many bytes as expected")
 )
