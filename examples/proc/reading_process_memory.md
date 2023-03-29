@@ -1,4 +1,4 @@
-# Find process module by name
+# Reading process memory
 
 ```go
 package proc_example
