@@ -42,7 +42,6 @@ var (
 	ref       C.CFRunLoopSourceRef
 )
 
-// If cannot make to work with callback instead of static methodm, then remove the platform listener and the init for all the platforms
 type platform_listener struct {
 	quit chan struct{}
 }

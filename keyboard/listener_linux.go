@@ -16,7 +16,6 @@ const inputEventSize = int(unsafe.Sizeof(inputEvent{}))
 
 type eventReceiver func() (Key, EventType)
 
-// If cannot make to work with callback instead of static methodm, then remove the platform listener and the init for all the platforms
 type platform_listener struct {
 	events   []string
 	cancelFn context.CancelFunc
