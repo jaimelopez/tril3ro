@@ -35,14 +35,17 @@ func main() {
 
 	// Calculating the address that we want to read
 	addr := mod.Address + 0xD892CC
+	
+	//  This is where the retrieved value is going to be stored
+	var retrieved_value bool
 
-	// Reading here the calculated address
-	value, err := r.Read(addr)
+	// Reading the address value into ´retrieved_value´
+	err := r.Read(addr, &retrieved_value)
 	if err != nil {
 		panic(fmt.Errorf("error reader addr %x: %s", addr, err.Error()))
 	}
 
 	// Let´s print the boolean value we've just read
-	fmt.Println(value)
+	fmt.Println(retrieved_value)
 }
 ```
