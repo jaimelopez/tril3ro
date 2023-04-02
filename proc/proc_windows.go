@@ -16,7 +16,7 @@ type platform_process struct {
 }
 
 func (proc *Process) init() error {
-	handle, err := windows.OpenProcess(windows.PROCESS_VM_OPERATION|windows.PROCESS_VM_READ|windows.PROCESS_VM_WRITE, false, uint32(r.ID))
+	handle, err := windows.OpenProcess(windows.PROCESS_VM_OPERATION|windows.PROCESS_VM_READ|windows.PROCESS_VM_WRITE, false, uint32(proc.ID))
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func (proc *Process) init() error {
 }
 
 func (proc *Process) close() {
-	_ = windows.CloseHandle(handle)
+	_ = windows.CloseHandle(proc.handle)
 }
 
 // AllProcessesIDs retrieves all the running processes IDs

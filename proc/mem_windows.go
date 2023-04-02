@@ -14,7 +14,7 @@ func (r *Reader[T]) Read(addr Addr, into *T) error {
 	buffer := (*[]byte)(unsafe.Pointer(into))
 
 	if err := windows.ReadProcessMemory(
-		handle,
+		r.handle,
 		uintptr(addr),
 		(*byte)(unsafe.Pointer(buffer)),
 		uintptr(unsafe.Sizeof(data)),
@@ -33,7 +33,7 @@ func (r *Writer[T]) Write(addr Addr, data T) error {
 	dtw := (*[]byte)(unsafe.Pointer(&data))
 
 	if err := windows.WriteProcessMemory(
-		handle,
+		r.handle,
 		uintptr(addr),
 		(*byte)(unsafe.Pointer(dtw)),
 		uintptr(unsafe.Sizeof(data)),
