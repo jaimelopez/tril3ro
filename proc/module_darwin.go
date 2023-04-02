@@ -21,7 +21,7 @@ func (proc *Process) AllModules() ([]*Module, error) {
 
 	var count C.uint32_t
 
-	list := C.getModules(C.pid_t(proc.ID), &count)
+	list := C.get_modules(C.pid_t(proc.ID), &count)
 	defer C.free(unsafe.Pointer(list))
 
 	for _, mod := range unsafe.Slice(list, count) {

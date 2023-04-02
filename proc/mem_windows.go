@@ -8,13 +8,7 @@ import (
 
 // Read certain memory address
 func (r *Reader[T]) Read(addr Addr, into *T) error {
-	// TODO: Maybe move it to an open/close proc
-	handle, err := windows.OpenProcess(windows.PROCESS_VM_OPERATION|windows.PROCESS_VM_READ, false, uint32(r.ID))
-	if err != nil {
-		return err
-	}
-
-	defer windows.CloseHandle(handle)
+	_ = r.open()
 
 	var data T
 	buffer := (*[]byte)(unsafe.Pointer(into))
@@ -34,13 +28,7 @@ func (r *Reader[T]) Read(addr Addr, into *T) error {
 
 // Write certain data into a particular memory address
 func (r *Writer[T]) Write(addr Addr, data T) error {
-	// TODO: Maybe move it to an open/close proc
-	handle, err := windows.OpenProcess(windows.PROCESS_VM_OPERATION|windows.PROCESS_VM_WRITE, false, uint32(r.ID))
-	if err != nil {
-		return err
-	}
-
-	defer windows.CloseHandle(handle)
+	_ = r.open()
 
 	dtw := (*[]byte)(unsafe.Pointer(&data))
 

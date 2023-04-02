@@ -15,5 +15,6 @@ typedef struct Module
   const char *module;
 } Module;
 
-struct Module *getModules(pid_t pid, uint32_t *count);
+
+struct Module *get_modules(pid_t pid, uint32_t *count);
 #endif

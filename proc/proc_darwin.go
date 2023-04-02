@@ -5,6 +5,9 @@ package proc
  #cgo LDFLAGS: -framework Cocoa
 
  #include <libproc.h>
+ #include <mach-o/dyld_images.h>
+ #include <mach/mach_traps.h>
+ #include <mach/mach_init.h>
 */
 import "C"
 
@@ -15,6 +18,24 @@ import (
 const (
 	procListPidsMaxSize = 99999
 )
+
+type platform_process struct {
+	task uint32
+}
+
+func (proc *Process) init() error {
+	var task C.task_t
+
+	C.task_for_pid(C.mach_task_self_, C.int(proc.ID), &task)
+
+	proc.task = uint32(task)
+
+	return nil
+}
+
+func (proc *Process) close() {
+	proc.task = 0
+}
 
 // AllProcessesIDs retrieves all the running processes IDs
 func AllProcessesIDs() ([]ProcessID, error) {
