@@ -16,7 +16,7 @@ type platform_process struct {
 }
 
 func (proc *Process) init() error {
-	handle, err := windows.OpenProcess(windows.PROCESS_VM_OPERATION|windows.PROCESS_VM_READ|windows.PROCESS_VM_WRITE,, false, uint32(r.ID))
+	handle, err := windows.OpenProcess(windows.PROCESS_VM_OPERATION|windows.PROCESS_VM_READ|windows.PROCESS_VM_WRITE, false, uint32(r.ID))
 	if err != nil {
 		return err
 	}
