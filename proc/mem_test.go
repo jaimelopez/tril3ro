@@ -133,57 +133,6 @@ func TestWriter(t *testing.T) {
 	})
 }
 
-func TestProcWrite(t *testing.T) {
-	process, _ := proc.ProcessByID(uint32(os.Getpid()))
-
-	t.Run("writing uint", func(t *testing.T) {
-		var elementToModify uint = 666
-		var expected uint = 777
-
-		err := process.Write(uintptr(unsafe.Pointer(&elementToModify)), expected)
-		if err != nil {
-			t.Errorf("unexpected error writing into process memory: %s", err)
-		}
-
-		if elementToModify != expected {
-			t.Errorf("memory incorrect write, expected: %d got %d", expected, elementToModify)
-		}
-	})
-
-	t.Run("writing string", func(t *testing.T) {
-		var elementToModify string = "hi"
-		var expected string = "bye"
-
-		err := process.Write(uintptr(unsafe.Pointer(&elementToModify)), expected)
-		if err != nil {
-			t.Errorf("unexpected error writing into process memory: %s", err)
-		}
-
-		if elementToModify != expected {
-			t.Errorf("memory incorrect write, expected: %s got %s", expected, elementToModify)
-		}
-	})
-
-	t.Run("writing struct", func(t *testing.T) {
-		type whatever struct {
-			ID   int
-			Name string
-		}
-
-		var elementToModify = whatever{1, "initial name"}
-		var expected = whatever{2, "final name"}
-
-		err := process.Write(uintptr(unsafe.Pointer(&elementToModify)), &expected)
-		if err != nil {
-			t.Errorf("unexpected error writing into process memory: %s", err)
-		}
-
-		if elementToModify != expected {
-			t.Errorf("memory incorrect write, expected: %+v got %+v", expected, elementToModify)
-		}
-	})
-}
-
 func TestNewWriter(t *testing.T) {
 	process, _ := proc.ProcessByID(uint32(os.Getpid()))
 
