@@ -7,11 +7,11 @@ import (
 )
 
 // Read certain memory address
-func (r *Reader[T]) Read(addr Addr) (*T, error) {
+func (r *Reader[T]) Read(addr Addr, into *T) error {
 	var data T
 
 	size := int(unsafe.Sizeof(data))
-	buffer := (*byte)(unsafe.Pointer(&data))
+	buffer := (*byte)(unsafe.Pointer(into))
 
 	n, err := unix.ProcessVMReadv(
 		int(r.ID),
@@ -21,14 +21,14 @@ func (r *Reader[T]) Read(addr Addr) (*T, error) {
 	)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if n != size {
-		return nil, ErrWrongTotalBytes
+		return ErrWrongTotalBytes
 	}
 
-	return &data, nil
+	return nil
 }
 
 // Write certain data into a particular memory address

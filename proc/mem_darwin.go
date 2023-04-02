@@ -10,17 +10,14 @@ import (
 )
 
 // Read certain memory address
-func (r *Reader[T]) Read(addr Addr) (*T, error) {
+func (r *Reader[T]) Read(addr Addr, into *T) error {
+	// TODO: optimize read-writes extracting task detection
 	var data T
-
 	size := C.uint(unsafe.Sizeof(data))
-	dataAddr := uintptr(C.readProcessMemory(C.int(r.ID), C.mach_vm_address_t(addr), &size))
 
-	bs := (*[]byte)(unsafe.Pointer(&data))
-	vs := (*[]byte)(unsafe.Pointer(dataAddr))
-	*bs = *vs
+	C.readProcessMemoryBytes(C.int(r.ID), C.mach_vm_address_t(addr), unsafe.Pointer(into), &size)
 
-	return &data, nil
+	return nil
 }
 
 // Write certain data into a particular memory address

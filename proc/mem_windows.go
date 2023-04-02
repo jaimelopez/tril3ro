@@ -7,17 +7,17 @@ import (
 )
 
 // Read certain memory address
-func (r *Reader[T]) Read(addr Addr) (*T, error) {
+func (r *Reader[T]) Read(addr Addr, into *T) error {
 	// TODO: Maybe move it to an open/close proc
 	handle, err := windows.OpenProcess(windows.PROCESS_VM_OPERATION|windows.PROCESS_VM_READ, false, uint32(r.ID))
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	defer windows.CloseHandle(handle)
 
 	var data T
-	buffer := (*[]byte)(unsafe.Pointer(&data))
+	buffer := (*[]byte)(unsafe.Pointer(into))
 
 	if err := windows.ReadProcessMemory(
 		handle,
@@ -26,10 +26,10 @@ func (r *Reader[T]) Read(addr Addr) (*T, error) {
 		uintptr(unsafe.Sizeof(data)),
 		nil,
 	); err != nil {
-		return nil, err
+		return err
 	}
 
-	return &data, nil
+	return nil
 }
 
 // Write certain data into a particular memory address

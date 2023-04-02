@@ -12,32 +12,34 @@ func TestReader(t *testing.T) {
 	process, _ := proc.ProcessByID(uint32(os.Getpid()))
 
 	t.Run("reading uint", func(t *testing.T) {
-		var elementToRead uint = 666
+		var elementToRead uint64 = 666
+		var elementRetrieved uint64
 
-		wtr := proc.NewReader[uint](process)
+		reader := proc.NewReader[uint64](process)
 
-		rec, err := wtr.Read(uintptr(unsafe.Pointer(&elementToRead)))
+		err := reader.Read(uintptr(unsafe.Pointer(&elementToRead)), &elementRetrieved)
 		if err != nil {
 			t.Errorf("unexpected error reading process memory: %s", err)
 		}
 
-		if rec == nil || *rec != elementToRead {
-			t.Errorf("error reading memory, expected: %d got %d", elementToRead, rec)
+		if elementRetrieved != elementToRead {
+			t.Errorf("error reading memory, expected: %d got %d", elementToRead, elementRetrieved)
 		}
 	})
 
 	t.Run("reading string", func(t *testing.T) {
 		var elementToRead string = "this is it"
+		var elementRetrieved string
 
-		wtr := proc.NewReader[string](process)
+		reader := proc.NewReader[string](process)
 
-		rec, err := wtr.Read(uintptr(unsafe.Pointer(&elementToRead)))
+		err := reader.Read(uintptr(unsafe.Pointer(&elementToRead)), &elementRetrieved)
 		if err != nil {
 			t.Errorf("unexpected error reading process memory: %s", err)
 		}
 
-		if rec == nil || *rec != elementToRead {
-			t.Errorf("error reading memory, expected: %s got %s", elementToRead, *rec)
+		if elementRetrieved != elementToRead {
+			t.Errorf("error reading memory, expected: %s got %s", elementToRead, elementRetrieved)
 		}
 	})
 
@@ -48,16 +50,17 @@ func TestReader(t *testing.T) {
 		}
 
 		elementToRead := whatever{1, "say my name"}
+		var elementRetrieved whatever
 
-		wtr := proc.NewReader[whatever](process)
+		reader := proc.NewReader[whatever](process)
 
-		rec, err := wtr.Read(uintptr(unsafe.Pointer(&elementToRead)))
+		err := reader.Read(uintptr(unsafe.Pointer(&elementToRead)), &elementRetrieved)
 		if err != nil {
 			t.Errorf("unexpected error reading process memory: %s", err)
 		}
 
-		if rec == nil || *rec != elementToRead {
-			t.Errorf("error reading memory, expected: %+v got %+v", elementToRead, rec)
+		if elementRetrieved != elementToRead {
+			t.Errorf("error reading memory, expected: %+v got %+v", elementToRead, elementRetrieved)
 		}
 	})
 }

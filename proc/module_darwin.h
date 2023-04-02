@@ -1,7 +1,6 @@
 #ifndef __MODULE_DARWIN_H__
 #define __MODULE_DARWIN_H__
 
-#include <stdlib.h>
 #include <mach-o/dyld_images.h>
 #include <mach-o/loader.h>
 #include <sys/stat.h>

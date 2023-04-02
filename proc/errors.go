@@ -3,7 +3,7 @@ package proc
 import "errors"
 
 var (
-	// ErrOperationNotAllowed its raised whenever a operation is denied
+	// ErrOperationNotAllowed it's raised whenever a operation is denied
 	ErrOperationNotAllowed = errors.New("operation not allowed")
 
 	// ErrProcessNotFound represents a process not found error
@@ -23,4 +23,7 @@ var (
 
 	// ErrWrongTotalBytes represents an error reading or writing the spcified number of bytes
 	ErrWrongTotalBytes = errors.New("couldn't perform operation with as many bytes as expected")
+
+	// ErrNotReferencedObject it's raised when a non pointer is received
+	ErrNotReferencedObject = errors.New("object not a pointer or reference")
 )
