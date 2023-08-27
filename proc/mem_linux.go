@@ -7,10 +7,7 @@ import (
 )
 
 // Read certain memory address
-func (r *Reader[T]) Read(addr Addr, into *T) error {
-	var data T
-
-	size := int(unsafe.Sizeof(data))
+func (r *Reader[T]) ReadOf(addr Addr, into *T, size uint) error {
 	buffer := (*byte)(unsafe.Pointer(into))
 
 	n, err := unix.ProcessVMReadv(
@@ -32,8 +29,7 @@ func (r *Reader[T]) Read(addr Addr, into *T) error {
 }
 
 // Write certain data into a particular memory address
-func (r *Writer[T]) Write(addr Addr, data T) error {
-	size := int(unsafe.Sizeof(data))
+func (r *Writer[T]) WriteOf(addr Addr, data T, size uint) error {
 	buffer := (*byte)(unsafe.Pointer(&data))
 
 	n, err := unix.ProcessVMWritev(
