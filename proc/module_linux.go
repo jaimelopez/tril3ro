@@ -35,11 +35,11 @@ func (proc *Process) AllModules() ([]*Module, error) {
 		}
 
 		mods = append(mods, &Module{
-			ProcessID: proc.ID,
-			Address:   AddrFromString(lib.StartAddr),
-			Size:      uint32(AddrFromString(lib.EndAddr) - AddrFromString(lib.StartAddr)),
-			Name:      lib.Name,
-			Path:      lib.Path,
+			Process: proc,
+			Address: AddrFromString(lib.StartAddr),
+			Size:    uint32(AddrFromString(lib.EndAddr) - AddrFromString(lib.StartAddr)),
+			Name:    lib.Name,
+			Path:    lib.Path,
 		})
 	}
 
