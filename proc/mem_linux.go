@@ -9,11 +9,12 @@ import (
 // Read certain memory address
 func (r *Reader[T]) ReadOf(addr Addr, into *T, size uint) error {
 	buffer := (*byte)(unsafe.Pointer(into))
+	sz := int(size)
 
 	n, err := unix.ProcessVMReadv(
 		int(r.ID),
 		[]unix.Iovec{{Base: buffer, Len: uint64(size)}},
-		[]unix.RemoteIovec{{Base: addr, Len: size}},
+		[]unix.RemoteIovec{{Base: addr, Len: sz}},
 		0,
 	)
 
@@ -21,7 +22,7 @@ func (r *Reader[T]) ReadOf(addr Addr, into *T, size uint) error {
 		return err
 	}
 
-	if n != size {
+	if n != sz {
 		return ErrWrongTotalBytes
 	}
 
