@@ -14,7 +14,7 @@ func (w *Writer[T]) WriteOf(addr proc.Addr, data T, size uint) error {
 	dtw := (*[]byte)(unsafe.Pointer(&data))
 
 	if err := windows.WriteProcessMemory(
-		w.processID,
+		w.handle,
 		uintptr(addr),
 		(*byte)(unsafe.Pointer(dtw)),
 		uintptr(size),
