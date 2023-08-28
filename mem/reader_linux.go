@@ -1,4 +1,4 @@
-package proc
+package mem
 
 import (
 	"unsafe"
@@ -12,29 +12,6 @@ func (r *Reader[T]) ReadOf(addr Addr, into *T, size uint) error {
 	sz := int(size)
 
 	n, err := unix.ProcessVMReadv(
-		int(r.ID),
-		[]unix.Iovec{{Base: buffer, Len: uint64(sz)}},
-		[]unix.RemoteIovec{{Base: addr, Len: sz}},
-		0,
-	)
-
-	if err != nil {
-		return err
-	}
-
-	if n != sz {
-		return ErrWrongTotalBytes
-	}
-
-	return nil
-}
-
-// Write certain data into a particular memory address
-func (r *Writer[T]) WriteOf(addr Addr, data T, size uint) error {
-	buffer := (*byte)(unsafe.Pointer(&data))
-	sz := int(size)
-
-	n, err := unix.ProcessVMWritev(
 		int(r.ID),
 		[]unix.Iovec{{Base: buffer, Len: uint64(sz)}},
 		[]unix.RemoteIovec{{Base: addr, Len: sz}},

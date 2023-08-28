@@ -15,14 +15,6 @@ const (
 	procMemLocation    = "/proc/%d/mem"
 )
 
-type platform_process struct{}
-
-func (proc *Process) init() error {
-	return nil
-}
-
-func (proc *Process) close() {}
-
 // AllProcessesIDs retrieves all the running processes IDs
 func AllProcessesIDs() ([]ProcessID, error) {
 	d, err := os.Open(procsLocation)

@@ -11,25 +11,6 @@ const (
 	procListPidsMaxSize = 99999
 )
 
-type platform_process struct {
-	handle windows.Handle
-}
-
-func (proc *Process) init() error {
-	handle, err := windows.OpenProcess(windows.PROCESS_VM_OPERATION|windows.PROCESS_VM_READ|windows.PROCESS_VM_WRITE, false, uint32(proc.ID))
-	if err != nil {
-		return err
-	}
-
-	proc.handle = handle
-
-	return nil
-}
-
-func (proc *Process) close() {
-	_ = windows.CloseHandle(proc.handle)
-}
-
 // AllProcessesIDs retrieves all the running processes IDs
 func AllProcessesIDs() ([]ProcessID, error) {
 	pIDs := make([]uint32, procListPidsMaxSize)

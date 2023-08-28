@@ -1,10 +1,8 @@
 package proc
 
 import (
-	"runtime"
 	"strconv"
 	"strings"
-	"sync/atomic"
 )
 
 // ProcessID represents a process identifier
@@ -22,30 +20,9 @@ func AddrFromString(addr string) Addr {
 
 // Process definition
 type Process struct {
-	platform_process
 	ID       ProcessID
 	ParentID ProcessID
 	Name     string
-	opened   atomic.Bool
-}
-
-func (proc *Process) open() error {
-	if proc.opened.Load() {
-		return nil
-	}
-
-	if err := proc.init(); err != nil {
-		return err
-	}
-
-	proc.opened.Store(true)
-
-	// Make sure that proc gets stopped correctly whenever it's garbage collected
-	runtime.SetFinalizer(proc, func(obj any) {
-		obj.(*Process).close()
-	})
-
-	return nil
 }
 
 // Module retrieves a particular dynamic module based on the name

@@ -9,15 +9,15 @@ type Module struct {
 	Path    string
 }
 
-func (m *Module) ReadAll() ([]byte, error) {
-	rdr := NewReader[[]byte](m.Process)
+// func (m *Module) ReadAll() ([]byte, error) {
+// 	rdr := NewReader[[]byte](m.Process)
 
-	data := make([]byte, m.Size)
+// 	data := make([]byte, m.Size)
 
-	err := rdr.ReadOf(m.Address, &data, uint(m.Size))
-	if err != nil {
-		return nil, err
-	}
+// 	err := rdr.ReadOf(m.Address, &data, uint(m.Size))
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	return data, nil
-}
+// 	return data, nil
+// }

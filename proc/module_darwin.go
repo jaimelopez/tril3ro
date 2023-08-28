@@ -4,6 +4,7 @@ package proc
 #include <module_darwin.h>
 */
 import "C"
+
 import (
 	"path/filepath"
 	"unsafe"
