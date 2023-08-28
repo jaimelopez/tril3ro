@@ -1,7 +1,7 @@
 package proc
 
 /*
-#include <module_darwin.h>
+#include "module_darwin.h"
 */
 import "C"
 
