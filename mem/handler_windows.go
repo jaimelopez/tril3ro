@@ -1,5 +1,9 @@
 package mem
 
+import (
+	"golang.org/x/sys/windows"
+)
+
 type platform_process struct {
 	handle windows.Handle
 }
