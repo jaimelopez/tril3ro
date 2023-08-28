@@ -8,12 +8,12 @@ import (
 )
 
 // Write certain data into a particular memory address
-func (r *writer[T]) WriteOf(addr proc.Addr, data T, size uint) error {
+func (w *Writer[T]) WriteOf(addr proc.Addr, data T, size uint) error {
 	buffer := (*byte)(unsafe.Pointer(&data))
 	sz := int(size)
 
 	n, err := unix.ProcessVMWritev(
-		int(r.ID),
+		int(w.processID),
 		[]unix.Iovec{{Base: buffer, Len: uint64(sz)}},
 		[]unix.RemoteIovec{{Base: addr, Len: sz}},
 		0,

@@ -12,10 +12,10 @@ type Writer[T any] struct {
 }
 
 // Write certain data into a particular memory address
-func (r *Writer[T]) Write(addr proc.Addr, data T) error {
+func (w *Writer[T]) Write(addr proc.Addr, data T) error {
 	var et T
 
-	return r.WriteOf(addr, data, uint(unsafe.Sizeof(et)))
+	return w.WriteOf(addr, data, uint(unsafe.Sizeof(et)))
 }
 
 // NewWriter instantiates a new memory writer for specified data struct

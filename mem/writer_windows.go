@@ -8,13 +8,13 @@ import (
 )
 
 // Write certain data into a particular memory address
-func (r *writer[T]) WriteOf(addr proc.Addr, data T, size uint) error {
+func (w *writer[T]) WriteOf(addr proc.Addr, data T, size uint) error {
 	_ = r.open()
 
 	dtw := (*[]byte)(unsafe.Pointer(&data))
 
 	if err := windows.WriteProcessMemory(
-		r.handle,
+		w.processID,
 		uintptr(addr),
 		(*byte)(unsafe.Pointer(dtw)),
 		uintptr(size),
