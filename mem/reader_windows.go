@@ -3,11 +3,12 @@ package mem
 import (
 	"unsafe"
 
+	"github.com/jaimelopez/tril3ro/proc"
 	"golang.org/x/sys/windows"
 )
 
 // Read certain memory address
-func (r *Reader[T]) ReadOf(addr Addr, into *T, size uint) error {
+func (r *Reader[T]) ReadOf(addr proc.Addr, into *T, size uint) error {
 	_ = r.open()
 
 	buffer := (*[]byte)(unsafe.Pointer(into))
