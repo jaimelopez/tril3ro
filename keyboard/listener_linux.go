@@ -117,6 +117,7 @@ func (l *listener) read(ctx context.Context, event string, rec chan<- eventRecei
 
 	<-ctx.Done()
 
+	// Maybe get rid of this boolean and just rely on file.fd not being ^(uintptr(0))
 	listening = false
 }
 

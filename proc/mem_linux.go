@@ -7,16 +7,14 @@ import (
 )
 
 // Read certain memory address
-func (r *Reader[T]) Read(addr Addr, into *T) error {
-	var data T
-
-	size := int(unsafe.Sizeof(data))
+func (r *Reader[T]) ReadOf(addr Addr, into *T, size uint) error {
 	buffer := (*byte)(unsafe.Pointer(into))
+	sz := int(size)
 
 	n, err := unix.ProcessVMReadv(
 		int(r.ID),
-		[]unix.Iovec{{Base: buffer, Len: uint64(size)}},
-		[]unix.RemoteIovec{{Base: addr, Len: size}},
+		[]unix.Iovec{{Base: buffer, Len: uint64(sz)}},
+		[]unix.RemoteIovec{{Base: addr, Len: sz}},
 		0,
 	)
 
@@ -24,7 +22,7 @@ func (r *Reader[T]) Read(addr Addr, into *T) error {
 		return err
 	}
 
-	if n != size {
+	if n != sz {
 		return ErrWrongTotalBytes
 	}
 
@@ -32,14 +30,14 @@ func (r *Reader[T]) Read(addr Addr, into *T) error {
 }
 
 // Write certain data into a particular memory address
-func (r *Writer[T]) Write(addr Addr, data T) error {
-	size := int(unsafe.Sizeof(data))
+func (r *Writer[T]) WriteOf(addr Addr, data T, size uint) error {
 	buffer := (*byte)(unsafe.Pointer(&data))
+	sz := int(size)
 
 	n, err := unix.ProcessVMWritev(
 		int(r.ID),
-		[]unix.Iovec{{Base: buffer, Len: uint64(size)}},
-		[]unix.RemoteIovec{{Base: addr, Len: size}},
+		[]unix.Iovec{{Base: buffer, Len: uint64(sz)}},
+		[]unix.RemoteIovec{{Base: addr, Len: sz}},
 		0,
 	)
 
@@ -47,7 +45,7 @@ func (r *Writer[T]) Write(addr Addr, data T) error {
 		return err
 	}
 
-	if n != size {
+	if n != sz {
 		return ErrWrongTotalBytes
 	}
 

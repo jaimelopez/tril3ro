@@ -1,6 +1,6 @@
 module github.com/jaimelopez/tril3ro
 
-go 1.20
+go 1.21
 
 require (
 	github.com/cstockton/go-conv v1.0.0

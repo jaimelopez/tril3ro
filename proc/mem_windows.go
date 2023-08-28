@@ -7,17 +7,16 @@ import (
 )
 
 // Read certain memory address
-func (r *Reader[T]) Read(addr Addr, into *T) error {
+func (r *Reader[T]) ReadOf(addr Addr, into *T, size uint) error {
 	_ = r.open()
 
-	var data T
 	buffer := (*[]byte)(unsafe.Pointer(into))
 
 	if err := windows.ReadProcessMemory(
 		r.handle,
 		uintptr(addr),
 		(*byte)(unsafe.Pointer(buffer)),
-		uintptr(unsafe.Sizeof(data)),
+		uintptr(size),
 		nil,
 	); err != nil {
 		return err
@@ -27,7 +26,7 @@ func (r *Reader[T]) Read(addr Addr, into *T) error {
 }
 
 // Write certain data into a particular memory address
-func (r *Writer[T]) Write(addr Addr, data T) error {
+func (r *Writer[T]) WriteOf(addr Addr, data T, size uint) error {
 	_ = r.open()
 
 	dtw := (*[]byte)(unsafe.Pointer(&data))
@@ -36,7 +35,7 @@ func (r *Writer[T]) Write(addr Addr, data T) error {
 		r.handle,
 		uintptr(addr),
 		(*byte)(unsafe.Pointer(dtw)),
-		uintptr(unsafe.Sizeof(data)),
+		uintptr(size),
 		nil,
 	); err != nil {
 		return err
