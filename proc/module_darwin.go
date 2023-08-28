@@ -1,6 +1,7 @@
 package proc
 
 /*
+#cgo darwin LDFLAGS: -Wl,-undefined -Wl,dynamic_lookup
 #include "module_darwin.h"
 */
 import "C"

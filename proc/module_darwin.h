@@ -4,7 +4,7 @@
 #include <mach-o/dyld_images.h>
 #include <mach-o/loader.h>
 #include <sys/stat.h>
-#include "mem_darwin.h"
+#include "../mem/mem_darwin.h"
 
 #define PATH_MAX 2048
 
