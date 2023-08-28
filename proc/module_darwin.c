@@ -1,5 +1,4 @@
 #include "module_darwin.h"
-#include "../mem/mem_darwin.c"
 
 struct Module *get_modules(pid_t pid, uint32_t *count)
 {
