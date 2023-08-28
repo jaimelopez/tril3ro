@@ -13,7 +13,7 @@ func (r *Reader[T]) ReadOf(addr proc.Addr, into *T, size uint) error {
 	sz := int(size)
 
 	n, err := unix.ProcessVMReadv(
-		int(r.ID),
+		int(r.processID),
 		[]unix.Iovec{{Base: buffer, Len: uint64(sz)}},
 		[]unix.RemoteIovec{{Base: addr, Len: sz}},
 		0,
