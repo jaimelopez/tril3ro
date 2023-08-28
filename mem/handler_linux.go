@@ -1,6 +1,6 @@
 package mem
 
-type platform_process struct{}
+type platform_handler struct{}
 
 func (h *handler) init() error {
 	return nil

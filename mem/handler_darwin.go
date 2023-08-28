@@ -11,7 +11,7 @@ package mem
 */
 import "C"
 
-type platform_process struct {
+type platform_handler struct {
 	task uint32
 }
 

@@ -6,11 +6,13 @@ import (
 )
 
 type handler struct {
-	platform_process
+	platform_handler
 	processID uint32
 	opened    atomic.Bool
 }
 
+// NewHandler instantiates and open a new memory handler pointing to a particular process id
+// It will error in case the handler can not attach to the process no matter the cause
 func NewHandler(processID uint32) (*handler, error) {
 	h := &handler{processID: processID}
 

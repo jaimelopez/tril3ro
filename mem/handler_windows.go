@@ -4,7 +4,7 @@ import (
 	"golang.org/x/sys/windows"
 )
 
-type platform_process struct {
+type platform_handler struct {
 	handle windows.Handle
 }
 
