@@ -36,7 +36,7 @@ func WithDefaultHandler(processID common.ProcessID) Option {
 	}
 }
 
-// WithtHandler option allows to reuse handlers previously defined
+// WithtHandler option allows to reuse previously defined handlers
 func WithtHandler(h *handler) Option {
 	return func(m *manager) error {
 		m.handler = h
