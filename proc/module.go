@@ -7,15 +7,15 @@ import (
 
 // Module represents a dynamic module inside a process
 type Module struct {
-	Process *Process
-	Address common.Addr
-	Size    uint32
-	Name    string
-	Path    string
+	ProcessID common.ProcessID
+	Address   common.Addr
+	Size      uint32
+	Name      string
+	Path      string
 }
 
 func (m *Module) ReadAll() ([]byte, error) {
-	rdr, err := mem.NewReaderForProc[[]byte](m.Process.ID)
+	rdr, err := mem.NewReaderForProc[[]byte](m.ProcessID)
 	if err != nil {
 		return nil, err
 	}

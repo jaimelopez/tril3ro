@@ -22,11 +22,11 @@ func (proc *Process) AllModules() ([]*Module, error) {
 
 	for err := windows.Module32First(handle, &entry); err == nil; err = windows.Module32Next(handle, &entry) {
 		mods = append(mods, &Module{
-			Process: proc,
-			Address: common.Addr(entry.ModBaseAddr),
-			Size:    entry.ModBaseSize,
-			Name:    syscall.UTF16ToString(entry.Module[:]),
-			Path:    syscall.UTF16ToString(entry.ExePath[:]),
+			ProcessID: proc.ID,
+			Address:   common.Addr(entry.ModBaseAddr),
+			Size:      entry.ModBaseSize,
+			Name:      syscall.UTF16ToString(entry.Module[:]),
+			Path:      syscall.UTF16ToString(entry.ExePath[:]),
 		})
 	}
 

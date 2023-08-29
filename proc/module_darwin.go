@@ -29,7 +29,7 @@ func (proc *Process) AllModules() ([]*Module, error) {
 
 	for _, mod := range unsafe.Slice(list, count) {
 		mods = append(mods, &Module{
-			Process: proc,
+			ProcessID: proc.ID,
 			Address: common.Addr(mod.addr),
 			Size:    uint32(mod.size),
 			Name:    filepath.Base(C.GoString(mod.module)),
