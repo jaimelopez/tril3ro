@@ -15,7 +15,7 @@ func TestWriter(t *testing.T) {
 		var elementToModify uint = 666
 		var expected uint = 777
 
-		wtr, _ := mem.NewWriter[uint](processID)
+		wtr, _ := mem.NewWriter[uint](mem.WithDefaultHandler(processID))
 
 		err := wtr.Write(uintptr(unsafe.Pointer(&elementToModify)), expected)
 		if err != nil {
@@ -31,7 +31,7 @@ func TestWriter(t *testing.T) {
 		var elementToModify string = "hi"
 		var expected string = "bye"
 
-		wtr, _ := mem.NewWriter[string](processID)
+		wtr, _ := mem.NewWriter[string](mem.WithDefaultHandler(processID))
 
 		err := wtr.Write(uintptr(unsafe.Pointer(&elementToModify)), expected)
 		if err != nil {
@@ -52,7 +52,7 @@ func TestWriter(t *testing.T) {
 		var elementToModify = whatever{1, "initial name"}
 		var expected = whatever{2, "final name"}
 
-		wtr, _ := mem.NewWriter[whatever](processID)
+		wtr, _ := mem.NewWriter[whatever](mem.WithDefaultHandler(processID))
 
 		err := wtr.Write(uintptr(unsafe.Pointer(&elementToModify)), expected)
 		if err != nil {
@@ -64,14 +64,3 @@ func TestWriter(t *testing.T) {
 		}
 	})
 }
-
-// func TestNewWriter(t *testing.T) {
-// 	processID := uint32(os.Getpid())
-
-// 	wrt, _ := mem.NewWriter[int](processID)
-// 	expected := mem.Writer[int]{processID}
-
-// 	if *wrt != expected {
-// 		t.Errorf("unexpected writer")
-// 	}
-// }

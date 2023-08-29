@@ -15,7 +15,7 @@ func TestReader(t *testing.T) {
 		var elementToRead uint64 = 666
 		var elementRetrieved uint64
 
-		reader, _ := mem.NewReader[uint64](processID)
+		reader, _ := mem.NewReader[uint64](mem.WithDefaultHandler(processID))
 
 		err := reader.Read(uintptr(unsafe.Pointer(&elementToRead)), &elementRetrieved)
 		if err != nil {
@@ -31,7 +31,7 @@ func TestReader(t *testing.T) {
 		var elementToRead string = "this is it"
 		var elementRetrieved string
 
-		reader, _ := mem.NewReader[string](processID)
+		reader, _ := mem.NewReader[string](mem.WithDefaultHandler(processID))
 
 		err := reader.Read(uintptr(unsafe.Pointer(&elementToRead)), &elementRetrieved)
 		if err != nil {
@@ -52,7 +52,7 @@ func TestReader(t *testing.T) {
 		elementToRead := whatever{1, "say my name"}
 		var elementRetrieved whatever
 
-		reader, _ := mem.NewReader[whatever](processID)
+		reader, _ := mem.NewReader[whatever](mem.WithDefaultHandler(processID))
 
 		err := reader.Read(uintptr(unsafe.Pointer(&elementToRead)), &elementRetrieved)
 		if err != nil {
@@ -64,13 +64,3 @@ func TestReader(t *testing.T) {
 		}
 	})
 }
-
-// func TestNewReader(t *testing.T) {
-// 	processID := uint32(os.Getpid())
-// 	rdr, _ := mem.NewReader[int](processID)
-// 	expected := mem.reader[int]{process}
-
-// 	if *rdr != expected {
-// 		t.Errorf("unexpected reader")
-// 	}
-// }

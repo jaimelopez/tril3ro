@@ -17,4 +17,7 @@ var (
 
 	// ErrUnexpectedConversion represents generic unexpected error
 	ErrUnexpectedResult = errors.New("unexpected result error")
+
+	// ErrHandlerNotSpecified when handler is nil or not specified
+	ErrHandlerNotSpecified = errors.New("nil handler or not specified")
 )

@@ -16,7 +16,7 @@ func BenchmarkRead(b *testing.B) {
 		var elementToRead uint64 = 666
 		var elementRetrieved uint64
 
-		reader, _ := mem.NewReader[uint64](process.ID)
+		reader, _ := mem.NewReader[uint64](mem.WithDefaultHandler(process.ID))
 
 		for i := 0; i < b.N; i++ {
 			_ = reader.Read(uintptr(unsafe.Pointer(&elementToRead)), &elementRetrieved)
@@ -27,7 +27,7 @@ func BenchmarkRead(b *testing.B) {
 		var elementToRead string = "this is it"
 		var elementRetrieved string
 
-		reader, _ := mem.NewReader[string](process.ID)
+		reader, _ := mem.NewReader[string](mem.WithDefaultHandler(process.ID))
 
 		for i := 0; i < b.N; i++ {
 			_ = reader.Read(uintptr(unsafe.Pointer(&elementToRead)), &elementRetrieved)
@@ -43,7 +43,7 @@ func BenchmarkRead(b *testing.B) {
 		elementToRead := whatever{1, "say my name"}
 		var elementRetrieved whatever
 
-		reader, _ := mem.NewReader[whatever](process.ID)
+		reader, _ := mem.NewReader[whatever](mem.WithDefaultHandler(process.ID))
 
 		for i := 0; i < b.N; i++ {
 			_ = reader.Read(uintptr(unsafe.Pointer(&elementToRead)), &elementRetrieved)

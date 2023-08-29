@@ -8,7 +8,7 @@ import (
 )
 
 // Write certain data into a particular memory address
-func (w *Writer[T]) WriteOf(addr proc.Addr, data T, size uint) error {
+func (w *writer[T]) WriteOf(addr proc.Addr, data T, size uint) error {
 	_ = w.open()
 
 	dtw := (*[]byte)(unsafe.Pointer(&data))

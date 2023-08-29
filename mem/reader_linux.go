@@ -8,7 +8,7 @@ import (
 )
 
 // Read certain memory address
-func (r *Reader[T]) ReadOf(addr proc.Addr, into *T, size uint) error {
+func (r *reader[T]) ReadOf(addr proc.Addr, into *T, size uint) error {
 	buffer := (*byte)(unsafe.Pointer(into))
 	sz := int(size)
 

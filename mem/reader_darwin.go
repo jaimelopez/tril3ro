@@ -12,7 +12,7 @@ import (
 )
 
 // Read certain memory address
-func (r *Reader[T]) ReadOf(addr proc.Addr, into *T, size uint) error {
+func (r *reader[T]) ReadOf(addr proc.Addr, into *T, size uint) error {
 	sz := C.uint(size)
 
 	C.read_process_memory_bytes(C.uint(r.task), C.mach_vm_address_t(addr), unsafe.Pointer(into), &sz)

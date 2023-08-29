@@ -6,24 +6,24 @@ import (
 	"github.com/jaimelopez/tril3ro/proc"
 )
 
-// Reader struct to manage memory reading operations
-type Reader[T any] struct {
-	*handler
+// reader struct to manage memory reading operations
+type reader[T any] struct {
+	*manager
 }
 
 // Read certain memory address
-func (r *Reader[T]) Read(addr proc.Addr, into *T) error {
+func (r *reader[T]) Read(addr proc.Addr, into *T) error {
 	var et T
 
 	return r.ReadOf(addr, into, uint(unsafe.Sizeof(et)))
 }
 
 // NewReader instantiates a new memory reader for specified data struct
-func NewReader[T any](processID uint32) (*Reader[T], error) {
-	h, err := NewHandler(processID)
+func NewReader[T any](opts ...Option) (*reader[T], error) {
+	m, err := newManager(opts...)
 	if err != nil {
 		return nil, err
 	}
 
-	return &Reader[T]{h}, nil
+	return &reader[T]{m}, nil
 }

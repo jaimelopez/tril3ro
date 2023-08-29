@@ -8,7 +8,7 @@ import (
 
 // Writer struct to manage memory writing operations
 type Writer[T any] struct {
-	*handler
+	*manager
 }
 
 // Write certain data into a particular memory address
@@ -19,11 +19,11 @@ func (w *Writer[T]) Write(addr proc.Addr, data T) error {
 }
 
 // NewWriter instantiates a new memory writer for specified data struct
-func NewWriter[T any](processID uint32) (*Writer[T], error) {
-	h, err := NewHandler(processID)
+func NewWriter[T any](opts ...Option) (*Writer[T], error) {
+	m, err := newManager(opts...)
 	if err != nil {
 		return nil, err
 	}
 
-	return &Writer[T]{h}, nil
+	return &Writer[T]{m}, nil
 }
