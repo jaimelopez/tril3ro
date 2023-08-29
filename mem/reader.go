@@ -3,7 +3,7 @@ package mem
 import (
 	"unsafe"
 
-	"github.com/jaimelopez/tril3ro/proc"
+	"github.com/jaimelopez/tril3ro/common"
 )
 
 // reader struct to manage memory reading operations
@@ -12,7 +12,7 @@ type reader[T any] struct {
 }
 
 // Read certain memory address
-func (r *reader[T]) Read(addr proc.Addr, into *T) error {
+func (r *reader[T]) Read(addr common.Addr, into *T) error {
 	var et T
 
 	return r.ReadOf(addr, into, uint(unsafe.Sizeof(et)))
@@ -26,4 +26,9 @@ func NewReader[T any](opts ...Option) (*reader[T], error) {
 	}
 
 	return &reader[T]{m}, nil
+}
+
+// NewReaderForProc instantiates a new memory reader for specified data struct using the default handler
+func NewReaderForProc[T any](processID uint32) (*reader[T], error) {
+	return NewReader[T](WithDefaultHandler(processID))
 }

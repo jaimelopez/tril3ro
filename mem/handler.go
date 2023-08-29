@@ -3,11 +3,13 @@ package mem
 import (
 	"runtime"
 	"sync/atomic"
+
+	"github.com/jaimelopez/tril3ro/common"
 )
 
 type handler struct {
 	platform_handler
-	processID uint32
+	processID common.ProcessID
 	opened    atomic.Bool
 }
 

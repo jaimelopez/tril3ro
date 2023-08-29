@@ -4,6 +4,7 @@ import (
 	"syscall"
 	"unsafe"
 
+	"github.com/jaimelopez/tril3ro/common"
 	"golang.org/x/sys/windows"
 )
 
@@ -22,7 +23,7 @@ func (proc *Process) AllModules() ([]*Module, error) {
 	for err := windows.Module32First(handle, &entry); err == nil; err = windows.Module32Next(handle, &entry) {
 		mods = append(mods, &Module{
 			Process: proc,
-			Address: Addr(entry.ModBaseAddr),
+			Address: common.Addr(entry.ModBaseAddr),
 			Size:    entry.ModBaseSize,
 			Name:    syscall.UTF16ToString(entry.Module[:]),
 			Path:    syscall.UTF16ToString(entry.ExePath[:]),

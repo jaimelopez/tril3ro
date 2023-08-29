@@ -8,11 +8,11 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/jaimelopez/tril3ro/proc"
+	"github.com/jaimelopez/tril3ro/common"
 )
 
 // Write certain data into a particular memory address
-func (r *writer[T]) WriteOf(addr proc.Addr, data T, size uint) error {
+func (r *writer[T]) WriteOf(addr common.Addr, data T, size uint) error {
 	_ = r.open()
 
 	if !C.write_process_memory(

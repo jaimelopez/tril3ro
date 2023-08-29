@@ -5,11 +5,12 @@ import (
 	"testing"
 	"unsafe"
 
+	"github.com/jaimelopez/tril3ro/common"
 	"github.com/jaimelopez/tril3ro/mem"
 )
 
 func TestReader(t *testing.T) {
-	processID := uint32(os.Getpid())
+	processID := common.ProcessID(os.Getpid())
 
 	t.Run("reading uint", func(t *testing.T) {
 		var elementToRead uint64 = 666

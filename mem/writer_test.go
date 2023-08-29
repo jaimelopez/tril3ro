@@ -5,11 +5,12 @@ import (
 	"testing"
 	"unsafe"
 
+	"github.com/jaimelopez/tril3ro/common"
 	"github.com/jaimelopez/tril3ro/mem"
 )
 
 func TestWriter(t *testing.T) {
-	processID := uint32(os.Getpid())
+	processID := common.ProcessID(os.Getpid())
 
 	t.Run("writing uint", func(t *testing.T) {
 		var elementToModify uint = 666

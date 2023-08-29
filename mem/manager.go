@@ -1,5 +1,7 @@
 package mem
 
+import "github.com/jaimelopez/tril3ro/common"
+
 type manager struct {
 	*handler
 }
@@ -25,7 +27,7 @@ func newManager(opts ...Option) (*manager, error) {
 type Option func(*manager) error
 
 // WithDefaultHandler option includes a default handler for the specified process id
-func WithDefaultHandler(processID uint32) Option {
+func WithDefaultHandler(processID common.ProcessID) Option {
 	return func(m *manager) error {
 		h, err := NewHandler(processID)
 		m.handler = h

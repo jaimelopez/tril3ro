@@ -13,6 +13,8 @@ import "C"
 
 import (
 	"unsafe"
+
+	"github.com/jaimelopez/tril3ro/common"
 )
 
 const (
@@ -20,8 +22,8 @@ const (
 )
 
 // AllProcessesIDs retrieves all the running processes IDs
-func AllProcessesIDs() ([]ProcessID, error) {
-	bff := make([]ProcessID, procListPidsMaxSize)
+func AllProcessesIDs() ([]common.ProcessID, error) {
+	bff := make([]common.ProcessID, procListPidsMaxSize)
 	n, err := C.proc_listallpids(unsafe.Pointer(&bff[0]), C.int(len(bff)))
 
 	return bff[:n], err
@@ -49,7 +51,7 @@ func AllProcesses() ([]*Process, error) {
 }
 
 // ProcessByID retrieves a process that matches the specified ID
-func ProcessByID(id ProcessID) (*Process, error) {
+func ProcessByID(id common.ProcessID) (*Process, error) {
 	info := &C.struct_proc_taskallinfo{}
 
 	res := C.proc_pidinfo(C.int(id), C.PROC_PIDTASKALLINFO, 0, unsafe.Pointer(info), C.PROC_PIDTASKALLINFO_SIZE)
@@ -59,7 +61,7 @@ func ProcessByID(id ProcessID) (*Process, error) {
 
 	return &Process{
 		ID:       id,
-		ParentID: ProcessID(info.pbsd.pbi_ppid),
+		ParentID: common.ProcessID(info.pbsd.pbi_ppid),
 		Name:     C.GoString(&info.pbsd.pbi_name[0]),
 	}, nil
 }

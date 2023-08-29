@@ -1,23 +1,31 @@
 package proc
 
+import (
+	"github.com/jaimelopez/tril3ro/common"
+	"github.com/jaimelopez/tril3ro/mem"
+)
+
 // Module represents a dynamic module inside a process
 type Module struct {
 	Process *Process
-	Address Addr
+	Address common.Addr
 	Size    uint32
 	Name    string
 	Path    string
 }
 
-// func (m *Module) ReadAll() ([]byte, error) {
-// 	rdr := NewReader[[]byte](m.Process)
+func (m *Module) ReadAll() ([]byte, error) {
+	rdr, err := mem.NewReaderForProc[[]byte](m.Process.ID)
+	if err != nil {
+		return nil, err
+	}
 
-// 	data := make([]byte, m.Size)
+	data := make([]byte, m.Size)
 
-// 	err := rdr.ReadOf(m.Address, &data, uint(m.Size))
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	err = rdr.ReadOf(m.Address, &data, uint(m.Size))
+	if err != nil {
+		return nil, err
+	}
 
-// 	return data, nil
-// }
+	return data, nil
+}

@@ -5,11 +5,12 @@ import (
 	"testing"
 	"unsafe"
 
+	"github.com/jaimelopez/tril3ro/common"
 	"github.com/jaimelopez/tril3ro/mem"
 )
 
 func BenchmarkWriter(b *testing.B) {
-	processID := uint32(os.Getpid())
+	processID := common.ProcessID(os.Getpid())
 
 	b.Run("writing uint", func(b *testing.B) {
 		var elementToModify uint = 666

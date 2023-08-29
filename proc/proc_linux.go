@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/jaimelopez/tril3ro/common"
 	"github.com/jaimelopez/tril3ro/file"
 )
 
@@ -16,7 +17,7 @@ const (
 )
 
 // AllProcessesIDs retrieves all the running processes IDs
-func AllProcessesIDs() ([]ProcessID, error) {
+func AllProcessesIDs() ([]common.ProcessID, error) {
 	d, err := os.Open(procsLocation)
 	if err != nil {
 		return nil, err
@@ -28,7 +29,7 @@ func AllProcessesIDs() ([]ProcessID, error) {
 		return nil, ErrOperationNotAllowed
 	}
 
-	procs := []ProcessID{}
+	procs := []common.ProcessID{}
 
 	for _, n := range names {
 		pid, err := strconv.ParseUint(n, 10, 32)
@@ -36,7 +37,7 @@ func AllProcessesIDs() ([]ProcessID, error) {
 			continue
 		}
 
-		procs = append(procs, ProcessID(pid))
+		procs = append(procs, common.ProcessID(pid))
 	}
 
 	return procs, nil
@@ -64,7 +65,7 @@ func AllProcesses() ([]*Process, error) {
 }
 
 // ProcessByID retrieves a process that matches the specified ID
-func ProcessByID(id ProcessID) (*Process, error) {
+func ProcessByID(id common.ProcessID) (*Process, error) {
 	filename := fmt.Sprintf(procStatusLocation, id)
 
 	s, err := file.NewBlockScanner(filename)
@@ -75,8 +76,8 @@ func ProcessByID(id ProcessID) (*Process, error) {
 	defer s.Close()
 
 	ls := struct {
-		Name string    `format:"Name:\\s*(.*)"`
-		PPid ProcessID `format:"PPid:.\\s*(\\d*)"`
+		Name string           `format:"Name:\\s*(.*)"`
+		PPid common.ProcessID `format:"PPid:.\\s*(\\d*)"`
 	}{}
 
 	if s.Scan() {

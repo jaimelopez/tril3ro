@@ -3,7 +3,7 @@ package mem
 import (
 	"unsafe"
 
-	"github.com/jaimelopez/tril3ro/proc"
+	"github.com/jaimelopez/tril3ro/common"
 )
 
 // writer struct to manage memory writing operations
@@ -12,7 +12,7 @@ type writer[T any] struct {
 }
 
 // Write certain data into a particular memory address
-func (w *writer[T]) Write(addr proc.Addr, data T) error {
+func (w *writer[T]) Write(addr common.Addr, data T) error {
 	var et T
 
 	return w.WriteOf(addr, data, uint(unsafe.Sizeof(et)))

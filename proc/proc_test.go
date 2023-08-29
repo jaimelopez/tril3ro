@@ -5,11 +5,12 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/jaimelopez/tril3ro/common"
 	"github.com/jaimelopez/tril3ro/proc"
 )
 
 func TestProcessByID(t *testing.T) {
-	pid := proc.ProcessID(os.Getpid())
+	pid := common.ProcessID(os.Getpid())
 
 	name, err := os.Executable()
 	if err != nil {
@@ -33,7 +34,7 @@ func TestProcessByID(t *testing.T) {
 }
 
 func TestProcessByName(t *testing.T) {
-	pid := proc.ProcessID(os.Getpid())
+	pid := common.ProcessID(os.Getpid())
 
 	name, err := os.Executable()
 	if err != nil {
