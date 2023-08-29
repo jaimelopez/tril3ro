@@ -12,7 +12,7 @@ import (
 )
 
 // Write certain data into a particular memory address
-func (r *Writer[T]) WriteOf(addr proc.Addr, data T, size uint) error {
+func (r *writer[T]) WriteOf(addr proc.Addr, data T, size uint) error {
 	_ = r.open()
 
 	if !C.write_process_memory(
