@@ -23,7 +23,7 @@ func newManager(opts ...Option) (*manager, error) {
 	return m, nil
 }
 
-// Option represents a function that help to configure the manager
+// Option represents a function that helps to configure the manager
 type Option func(*manager) error
 
 // WithDefaultHandler option includes a default handler for the specified process id
