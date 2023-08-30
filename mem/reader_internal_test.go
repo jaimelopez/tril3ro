@@ -1,17 +1,18 @@
-package mem_test
+package mem
 
 import (
 	"testing"
 )
 
 func TestNewReader(t *testing.T) {
-	t.Skip("not yet implemented")
-	
-	// processID := uint32(os.Getpid())
-	// rdr, _ := mem.NewReader[int](processID)
-	// expected := mem.reader[int]{process}
+	h := &handler{}
 
-	// if *rdr != expected {
-	// 	t.Errorf("unexpected reader")
-	// }
+	wrt, err := NewReader[int](WithtHandler(h))
+	if err != nil {
+		t.Errorf("unexpected error instantiating new reader: %+v", err)
+	}
+
+	if wrt.handler != h {
+		t.Errorf("unexpected handler")
+	}
 }

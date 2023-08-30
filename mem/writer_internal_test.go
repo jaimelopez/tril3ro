@@ -5,14 +5,14 @@ import (
 )
 
 func TestNewWriter(t *testing.T) {
-	t.Skip("not yet implemented")
+	h := &handler{}
 
-	// processID := uint32(os.Getpid())
+	wrt, err := NewWriter[int](WithtHandler(h))
+	if err != nil {
+		t.Errorf("unexpected error instantiating new writer: %+v", err)
+	}
 
-	// wrt, _ := mem.NewWriter[int](processID)
-	// expected := mem.Writer[int]{processID}
-
-	// if *wrt != expected {
-	// 	t.Errorf("unexpected writer")
-	// }
+	if wrt.handler != h {
+		t.Errorf("unexpected handler")
+	}
 }
