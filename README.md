@@ -19,3 +19,4 @@ The main objective of the project is to learn, and have fun not to cheat playing
 | File     | Simple package that provides few functionalities to parse files        | [examples](examples/file/)     | [doc](https://pkg.go.dev/github.com/jaimelopez/tril3ro/file)     |
 | Keyboard | Helps to listen and interact with keyboard devices                     | [examples](examples/keyboard/) | [doc](https://pkg.go.dev/github.com/jaimelopez/tril3ro/keyboard) |
 | Proc     | Package to help to attach to an in memory process and interact with it | [examples](examples/proc/)     | [doc](https://pkg.go.dev/github.com/jaimelopez/tril3ro/proc)     |
+| Mem     | Helps to coordinates operations read/write in processes's memory | [examples](examples/mem/)     | [doc](https://pkg.go.dev/github.com/jaimelopez/tril3ro/mem)     |
