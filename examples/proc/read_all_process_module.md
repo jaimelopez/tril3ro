@@ -1,4 +1,4 @@
-# Writing process memory
+# Find process module by name
 
 ```go
 package proc_example
@@ -30,19 +30,12 @@ func main() {
 		panic(fmt.Errorf("error retrieving module: %s", err.Error()))
 	}
 
-	// Instantiate a uint32 writer
-	r := proc.NewWriter[uint32](p)
-
-	// Calculating the address that we want to read
-	addr := mod.Address + 0xD892CC
-
-	// Writting here the calculated address
-	err = r.Write(addr, 666)
+	// Now we can read the whole module all at once
+	data, err := mod.ReadAll()
 	if err != nil {
-		panic(fmt.Errorf("error writing into addr %x: %s", addr, err.Error()))
+		panic(fmt.Errorf("error reading all module: %s", err.Error()))
 	}
 
-	// Successfully written
-	fmt.Println("Value written correctly")
+	fmt.Println(data)
 }
 ```

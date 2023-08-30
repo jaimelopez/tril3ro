@@ -1,4 +1,4 @@
-# Reading process memory
+# Writing process memory
 
 ```go
 package proc_example
@@ -30,22 +30,22 @@ func main() {
 		panic(fmt.Errorf("error retrieving module: %s", err.Error()))
 	}
 
-	// Instantiate a boolean reader
-	r := proc.NewReader[bool](p)
+	// Instantiate a uint32 writer
+	r, err := mem.NewWriter[uint32](mem.WithDefaultHandler(p.ID))
+	if err != nil {
+		panic(fmt.Errorf("error instantiating writer: %s", err.Error()))
+	}
 
 	// Calculating the address that we want to read
 	addr := mod.Address + 0xD892CC
-	
-	//  This is where the retrieved value is going to be stored
-	var retrieved_value bool
 
-	// Reading the address value into ´retrieved_value´
-	err := r.Read(addr, &retrieved_value)
+	// Writting here the calculated address
+	err = r.Write(addr, 666)
 	if err != nil {
-		panic(fmt.Errorf("error reader addr %x: %s", addr, err.Error()))
+		panic(fmt.Errorf("error writing into addr %x: %s", addr, err.Error()))
 	}
 
-	// Let´s print the boolean value we've just read
-	fmt.Println(retrieved_value)
+	// Successfully written
+	fmt.Println("Value written correctly")
 }
 ```
