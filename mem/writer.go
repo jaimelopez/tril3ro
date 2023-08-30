@@ -27,3 +27,8 @@ func NewWriter[T any](opts ...Option) (*writer[T], error) {
 
 	return &writer[T]{m}, nil
 }
+
+// NewWriterForProc instantiates a new memory writer for specified data struct using the default handler
+func NewWriterForProc[T any](processID uint32) (*writer[T], error) {
+	return NewWriter[T](WithDefaultHandler(processID))
+}
