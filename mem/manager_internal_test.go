@@ -40,7 +40,7 @@ func TestWithDefaultHandler(t *testing.T) {
 		t.Errorf("unexpected error executing option: %+v", err)
 	}
 
-	if *mgr.handler != *expected {
+	if mgr.handler.processID != expected.processID {
 		t.Errorf("unexpected handler")
 	}
 }
