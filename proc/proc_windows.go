@@ -4,6 +4,7 @@ import (
 	"syscall"
 	"unsafe"
 
+	"github.com/jaimelopez/tril3ro/common"
 	"golang.org/x/sys/windows"
 )
 
@@ -11,27 +12,8 @@ const (
 	procListPidsMaxSize = 99999
 )
 
-type platform_process struct {
-	handle windows.Handle
-}
-
-func (proc *Process) init() error {
-	handle, err := windows.OpenProcess(windows.PROCESS_VM_OPERATION|windows.PROCESS_VM_READ|windows.PROCESS_VM_WRITE, false, uint32(proc.ID))
-	if err != nil {
-		return err
-	}
-
-	proc.handle = handle
-
-	return nil
-}
-
-func (proc *Process) close() {
-	_ = windows.CloseHandle(proc.handle)
-}
-
 // AllProcessesIDs retrieves all the running processes IDs
-func AllProcessesIDs() ([]ProcessID, error) {
+func AllProcessesIDs() ([]common.ProcessID, error) {
 	pIDs := make([]uint32, procListPidsMaxSize)
 	var result uint32
 
@@ -68,8 +50,8 @@ func AllProcesses() ([]*Process, error) {
 
 	for {
 		processes = append(processes, &Process{
-			ID:       ProcessID(entry.ProcessID),
-			ParentID: ProcessID(entry.ParentProcessID),
+			ID:       common.ProcessID(entry.ProcessID),
+			ParentID: common.ProcessID(entry.ParentProcessID),
 			Name:     syscall.UTF16ToString(entry.ExeFile[:]),
 		})
 
@@ -83,7 +65,7 @@ func AllProcesses() ([]*Process, error) {
 }
 
 // ProcessByID retrieves a process that matches the specified ID
-func ProcessByID(id ProcessID) (*Process, error) {
+func ProcessByID(id common.ProcessID) (*Process, error) {
 	processes, err := AllProcesses()
 	if err != nil {
 		return nil, err

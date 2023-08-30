@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/jaimelopez/tril3ro/common"
 	"github.com/jaimelopez/tril3ro/file"
 )
 
@@ -35,11 +36,11 @@ func (proc *Process) AllModules() ([]*Module, error) {
 		}
 
 		mods = append(mods, &Module{
-			Process: proc,
-			Address: AddrFromString(lib.StartAddr),
-			Size:    uint32(AddrFromString(lib.EndAddr) - AddrFromString(lib.StartAddr)),
-			Name:    lib.Name,
-			Path:    lib.Path,
+			ProcessID: proc.ID,
+			Address:   common.AddrFromString(lib.StartAddr),
+			Size:      uint32(common.AddrFromString(lib.EndAddr) - common.AddrFromString(lib.StartAddr)),
+			Name:      lib.Name,
+			Path:      lib.Path,
 		})
 	}
 

@@ -1,13 +1,16 @@
 package proc
 
 /*
-#include <module_darwin.h>
+#cgo darwin LDFLAGS: -Wl,-undefined -Wl,dynamic_lookup
+#include "module_darwin.h"
 */
 import "C"
+
 import (
 	"path/filepath"
 	"unsafe"
 
+	"github.com/jaimelopez/tril3ro/common"
 	"github.com/jaimelopez/tril3ro/internal/execution"
 )
 
@@ -26,8 +29,8 @@ func (proc *Process) AllModules() ([]*Module, error) {
 
 	for _, mod := range unsafe.Slice(list, count) {
 		mods = append(mods, &Module{
-			Process: proc,
-			Address: Addr(mod.addr),
+			ProcessID: proc.ID,
+			Address: common.Addr(mod.addr),
 			Size:    uint32(mod.size),
 			Name:    filepath.Base(C.GoString(mod.module)),
 			Path:    C.GoString(mod.module),
